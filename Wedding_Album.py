@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 
-#meagan_moffitt
-#johnandsuzie2018
+#sample users:
+#  meagan_moffitt
 
-tag = input("Please enter a hashtag of your event: ")
-url = "https://www.instagram.com/explore/tags/" + tag + "/"
-keywords = ["wedding","bridal"]
+#tags for testing:
+#  johnandsuzie2018
+#  davidplussue
 
 wedding_dict = {
 'wedding dress': 'wedding prep',
@@ -15,7 +15,6 @@ wedding_dict = {
 'wedding hair':'wedding prep',
 'ready':'wedding prep',
 'florals':'wedding prep',
-'wedding': 'prelude',
 'venue': 'prelude',
 'open air': 'prelude',
 'outdoor': 'prelude',
@@ -73,12 +72,19 @@ wedding_dict = {
 
 # Extract and return images based on keywords
 # Input: soup
-# Output: a list of links
-def extract_images(soup):
+# Output: a dict of links with subevents
+def extract_wedding_images(soup):
     scripts = soup.find_all('script')
     all_info = scripts[3].text.strip()
 
-    images = []
+    wedding_prep = []
+    prelude = []
+    recessional = []
+    reception = []
+    first_dance = []
+    cake = []
+    vows = []
+    kiss = []
 
     nodes = all_info.split("\"node\":")
     for x in nodes:
@@ -86,17 +92,46 @@ def extract_images(soup):
             text = x.split('},')[0].lower()
 
             # Search for a keyword in "text", and save corresponding url
-            if keywords[0] in text:
-                jpg_link = x.split('"display_url":"')[1].split('"')[0]
-                images.append(jpg_link)
+            for keyword in wedding_dict.keys():
+                if keyword in text:
+                    liked_count = x.split('"edge_liked_by":{"count":')[1].split('}')[0]
+                    jpg_link = x.split('"display_url":"')[1].split('"')[0]
 
-    return images
+                    if wedding_dict.get(keyword) is "cake":
+                        cake.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "kiss":
+                        kiss.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "first dance":
+                        first_dance.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "wedding prep":
+                        wedding_prep.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "vows":
+                        vows.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "reception":
+                        reception.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "recessional":
+                        recessional.append((jpg_link,liked_count))
+                    elif wedding_dict.get(keyword) is "prelude":
+                        prelude.append((jpg_link,liked_count))
+
+
+    result = {"wedding_prep":set(wedding_prep),"prelude":set(prelude),"vows":set(vows),"kiss":set(kiss),
+              "recessional":set(recessional), "reception":set(reception),"first dance":set(first_dance), "cake": set(cake)}
+    return result
+
 
 if __name__ == '__main__':
+    tag = input("Please enter a hashtag of your event: ")
+    url = "https://www.instagram.com/explore/tags/" + tag + "/"
+    
     r = requests.get(url)
     page = r.text
     soup = BeautifulSoup(page, 'html.parser')
 
-    images = extract_images(soup)
+    photos = extract_wedding_images(soup)
     print("\nLinks of wedding images: ")
-    print(images)
+    for k,v in photos.items():
+        print(k)
+        print(v)
+        print()
+    #print(photos)
