@@ -111,6 +111,7 @@ def return_photos(result):
                 elif set_name == "recessional":
                     recessional.append(photo)
                 elif set_name == "prelude":
+                    prelude.append(photo)
     return wedding_prep, prelude, recessional, reception, first_dance, cake, vows, kiss, len(wedding_prep), len(prelude), len(recessional), len(reception), len(first_dance), len(cake), len(vows), len(kiss)
 
 
