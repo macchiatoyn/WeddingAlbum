@@ -82,37 +82,36 @@ wedding_dict = {
 def return_photos(result):
     count = 0
     result_list = []
-    wedding_prep = []
-    prelude = []
-    recessional = []
-    reception = []
-    first_dance = []
-    cake = []
-    vows = []
-    kiss = []
+    wedding_prep = ['wedding_prep']
+    prelude = ['prelude']
+    recessional = ['recessional']
+    reception = ['reception']
+    first_dance = ['first_dance']
+    cake = ['cake']
+    vows = ['vows']
+    kiss = ['kiss']
     seen = []
-    while count < 7:
-        for set_name,photo_set in result.items():
-            if photo_set != set([]):
-                count = count + 1
-                photo, seen = best_photo(photo_set, seen)
-                if set_name == "cake":
-                    cake.append(photo)
-                elif set_name == "kiss":
-                    kiss.append(photo)
-                elif set_name == "first dance":
-                    first_dance.append(photo)
-                elif set_name == "wedding prep":
-                    wedding_prep.append(photo)
-                elif set_name == "vows":
-                    vows.append(photo)
-                elif set_name == "reception":
-                    reception.append(photo)
-                elif set_name == "recessional":
-                    recessional.append(photo)
-                elif set_name == "prelude":
-                    prelude.append(photo)
-    return wedding_prep, prelude, recessional, reception, first_dance, cake, vows, kiss
+    for set_name,photo_set in result.items():
+        if photo_set != set([]) and count < 9:
+            count = count + 1
+            photo, seen = best_photo(photo_set, seen)
+            if set_name == "cake":
+                cake.append(photo)
+            elif set_name == "kiss":
+                kiss.append(photo)
+            elif set_name == "first dance":
+                first_dance.append(photo)
+            elif set_name == "wedding prep":
+                wedding_prep.append(photo)
+            elif set_name == "vows" :
+                vows.append(photo)
+            elif set_name == "reception":
+                reception.append(photo)
+            elif set_name == "recessional":
+                recessional.append(photo)
+            elif set_name == "prelude":
+                prelude.append(photo)
+    return wedding_prep, prelude, recessional, reception, first_dance, cake, vows, kiss, len(wedding_prep), len(prelude), len(recessional), len(reception), len(first_dance), len(cake), len(vows), len(kiss)
 
 
 #returns most liked photo from a set of photos
