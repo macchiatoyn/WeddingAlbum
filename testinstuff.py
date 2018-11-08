@@ -101,7 +101,7 @@ def return_photos(result):
                 kiss.append(photo)
             elif set_name == "first dance":
                 first_dance.append(photo)
-            elif set_name == "wedding prep":
+            elif set_name == "wedding_prep":
                 wedding_prep.append(photo)
             elif set_name == "vows" :
                 vows.append(photo)
