@@ -99,10 +99,10 @@ def return_photos(result_temp):
     while count < 12:
         for set_name, photo_set in result_temp.items():
             if photo_set != set([]) and count < 12:
-                count = count + 1
                 photo, seen = best_photo(photo_set, seen)
 
                 if len(photo) != 0:
+                    count = count + 1
                     if set_name == "cake":
                         cake.append(photo)
                     elif set_name == "kiss":
