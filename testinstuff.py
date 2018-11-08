@@ -91,26 +91,26 @@ def return_photos(result):
     vows = ['vows']
     kiss = ['kiss']
     seen = []
-    for set_name,photo_set in result.items():
-        if photo_set != set([]) and count < 9:
-            count = count + 1
-            photo, seen = best_photo(photo_set, seen)
-            if set_name == "cake":
-                cake.append(photo)
-            elif set_name == "kiss":
-                kiss.append(photo)
-            elif set_name == "first dance":
-                first_dance.append(photo)
-            elif set_name == "wedding_prep":
-                wedding_prep.append(photo)
-            elif set_name == "vows" :
-                vows.append(photo)
-            elif set_name == "reception":
-                reception.append(photo)
-            elif set_name == "recessional":
-                recessional.append(photo)
-            elif set_name == "prelude":
-                prelude.append(photo)
+    while count < 12:
+        for set_name,photo_set in result.items():
+            if photo_set != set([]) and count < 12:
+                count = count + 1
+                photo, seen = best_photo(photo_set, seen)
+                if set_name == "cake":
+                    cake.append(photo)
+                elif set_name == "kiss":
+                    kiss.append(photo)
+                elif set_name == "first dance":
+                    first_dance.append(photo)
+                elif set_name == "wedding_prep":
+                    wedding_prep.append(photo)
+                elif set_name == "vows" :
+                    vows.append(photo)
+                elif set_name == "reception":
+                    reception.append(photo)
+                elif set_name == "recessional":
+                    recessional.append(photo)
+                elif set_name == "prelude":
     return wedding_prep, prelude, recessional, reception, first_dance, cake, vows, kiss, len(wedding_prep), len(prelude), len(recessional), len(reception), len(first_dance), len(cake), len(vows), len(kiss)
 
 
