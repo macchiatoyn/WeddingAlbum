@@ -99,7 +99,7 @@ def return_photos(result):
                 cake.append(photo)
             elif set_name == "kiss":
                 kiss.append(photo)
-            elif set_name == "first_dance":
+            elif set_name == "first dance":
                 first_dance.append(photo)
             elif set_name == "wedding_prep":
                 wedding_prep.append(photo)
