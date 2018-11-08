@@ -90,43 +90,42 @@ def return_photos(result):
     cake = []
     vows = []
     kiss = []
-    while count < 4:
+    seen = []
+    while count < 7:
         for set_name,photo_set in result.items():
-            if photo_set == set([]):
-                del result[set_name]
-            else:
+            if photo_set != set([]):
                 count = count + 1
+                photo, seen = best_photo(photo_set, seen)
                 if set_name == "cake":
-                    cake.append(best_photo(photo_set))
+                    cake.append(photo)
                 elif set_name == "kiss":
-                    kiss.append(best_photo(photo_set))
+                    kiss.append(photo)
                 elif set_name == "first dance":
-                    first_dance.append(best_photo(photo_set))
+                    first_dance.append(photo)
                 elif set_name == "wedding prep":
-                    wedding_prep.append(best_photo(photo_set))
+                    wedding_prep.append(photo)
                 elif set_name == "vows":
-                    vows.append(best_photo(photo_set))
+                    vows.append(photo)
                 elif set_name == "reception":
-                    reception.append(best_photo(photo_set))
+                    reception.append(photo)
                 elif set_name == "recessional":
-                    recessional.append(best_photo(photo_set))
+                    recessional.append(photo)
                 elif set_name == "prelude":
-                    prelude.append(best_photo(photo_set))
+                    prelude.append(photo)
     return wedding_prep, prelude, recessional, reception, first_dance, cake, vows, kiss
 
 
 #returns most liked photo from a set of photos
-def best_photo(photo_set):
+def best_photo(photo_set, seen):
     most_likes = 0
     best_photo = set()
 
     for photo in photo_set:
-        if photo[1] > most_likes:
+        if int(photo[1]) > int(most_likes) and not photo in seen:
             most_likes = photo[1]
             best_photo = photo
-    if (not best_photo == set()):
-        photo_set.remove(best_photo)    
-    return best_photo
+            seen.append(photo)
+    return best_photo, seen
 
 
 
