@@ -124,7 +124,7 @@ def return_photos(result_temp):
                     seen.append(photo)
 
 
-    result = {"wedding_prep":wedding_prep, "prelude":set(prelude), "vows":vows, "kiss":kiss,
+    result = {"wedding_prep":wedding_prep, "prelude":prelude, "vows":vows, "kiss":kiss,
          "recessional":recessional, "reception":reception, "first dance":first_dance,"cake":cake,
          "what also happened":other}
 
