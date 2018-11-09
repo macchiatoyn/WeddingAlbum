@@ -143,6 +143,19 @@ def best_photo(photo_set, seen):
     return best_photo, seen
 
 
+# Extract author of each post
+def extract_username(shortcode):
+    url = "https://www.instagram.com/p/" + shortcode + "/"
+    r = requests.get(url)
+    page = r.text
+    soup = BeautifulSoup(page, 'html.parser')
+
+    cont = soup.find("meta", {"name":"description"})['content']
+    username = cont.split('(@')[1].split(')')[0]
+
+    return username
+
+
 
 # Extract and return images based on keywords
 # Input: soup
@@ -165,6 +178,8 @@ def extract_wedding_images(soup):
     for x in nodes:
         if "text" in x and "display_url" in x:
             text = x.split('},')[0].lower()
+            shortcode = x.split('"shortcode":"')[1].split('",')[0]
+            username = "@" + extract_username(shortcode)
 
             liked_count = x.split('"edge_liked_by":{"count":')[1].split('}')[0]
             jpg_link = x.split('"display_url":"')[1].split('"')[0]
@@ -174,31 +189,31 @@ def extract_wedding_images(soup):
             for keyword in wedding_dict.keys():
                 if keyword in text:
                     if wedding_dict.get(keyword) == "cake":
-                        cake.append((jpg_link,liked_count))
+                        cake.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "kiss":
-                        kiss.append((jpg_link,liked_count))
+                        kiss.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "first dance":
-                        first_dance.append((jpg_link,liked_count))
+                        first_dance.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "wedding prep":
-                        wedding_prep.append((jpg_link,liked_count))
+                        wedding_prep.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "vows":
-                        vows.append((jpg_link,liked_count))
+                        vows.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "reception":
-                        reception.append((jpg_link,liked_count))
+                        reception.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "recessional":
-                        recessional.append((jpg_link,liked_count))
+                        recessional.append((jpg_link,liked_count,username))
                         flag = 1
                     elif wedding_dict.get(keyword) == "prelude":
-                        prelude.append((jpg_link,liked_count))
+                        prelude.append((jpg_link,liked_count,username))
                         flag = 1
             if not flag == 1:
-                other.append((jpg_link,liked_count))
+                other.append((jpg_link,liked_count,username))
 
 
     result_temp = {"wedding_prep":set(wedding_prep),"prelude":set(prelude),"vows":set(vows),"kiss":set(kiss),
