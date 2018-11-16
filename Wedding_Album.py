@@ -12,6 +12,30 @@ import requests
 #  timandbeckyswedding
 #  tylerandnataliesayido
 
+quince_dict = {
+    'dress':'prep',
+    'hair': 'prep',
+    'excite': 'prep',
+    'makeup': 'prep',
+    'make up': 'prep',
+    'escort': 'prep',
+    'ready': 'prep',
+    'florals': 'prep',
+    'entrance': 'prep',
+    'dance': 'dance',
+    'music': 'dance',
+    'father daughter': 'dance',
+    'dj': 'dance',
+    'dance': 'dance',
+    'dancing': 'dance',
+    'groov': 'dance',
+    'cake': 'cake',
+    'bake': 'cake',
+    'baked': 'cake',
+    'dessert': 'cake',
+    'cut': 'cake',
+    'tier': 'cake',
+}
 wedding_dict = {
     'wedding dress': 'wedding prep',
     'gown': 'wedding prep',
