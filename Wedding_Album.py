@@ -18,6 +18,7 @@ quince_dict = {
     'excite': 'prep',
     'makeup': 'prep',
     'make up': 'prep',
+    'venue': 'prep',
     'escort': 'prep',
     'ready': 'prep',
     'florals': 'prep',
@@ -52,6 +53,7 @@ quince_dict = {
     'cake': 'food',
     'bake': 'food',
     'baked': 'food',
+    'candy': 'food',
     'dessert': 'food',
     'cut': 'food',
     'tier': 'food',
@@ -151,7 +153,7 @@ wedding_dict = {
 
 
 # returns photos prioritizing covering categories and then likes
-def return_photos(result_temp):
+def return_photos_wedding(result_temp):
     count = 0
     wedding_prep = []
     prelude = []
@@ -194,6 +196,37 @@ def return_photos(result_temp):
     result = {"wedding_prep":wedding_prep, "prelude":prelude, "vows":vows, "kiss":kiss,
          "recessional":recessional, "reception":reception, "first dance":first_dance,"cake":cake,
          "what also happened":other}
+
+    return result
+
+def return_photos_quince(result_temp):
+    count = 0
+    prep = []
+    dance = []
+    food = []
+    photoshoot = []
+    photobooth = []
+    while count < 12:
+        for set_name, photo_set in result_temp.items():
+            if photo_set != set([]) and count < 12:
+                photo, seen = best_photo(photo_set, seen)
+                if len(photo) != 0:
+                    count = count + 1
+                    if set_name == "food":
+                        food.append(photo)
+                    elif set_name == "prep":
+                        prep.append(photo)
+                    elif set_name == "dance":
+                        dance.append(photo)
+                    elif set_name == "photshoot":
+                        photoshoot.append(photo)
+                    elif set_name == "photobooth":
+                        photobooth.append(photo)
+                    seen.append(photo)
+
+
+    result = {"prep":prep, "dance":dance, "food":food, "photoshoot":photoshoot,
+         "photobooth":photobooth}
 
     return result
 
