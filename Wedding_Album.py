@@ -23,7 +23,6 @@ quince_dict = {
     'florals': 'prep',
     'flower': 'prep',
     'table': 'prep',
-    'celebrat': 'prep',
     'silverware': 'prep',
     'placesetting': 'prep',
     'decor': 'prep',
@@ -31,6 +30,9 @@ quince_dict = {
     'arrange': 'prep',
     'design': 'prep',
     'entrance': 'prep',
+    'banquet': 'prep',
+    'hall':'prep',
+    'venue':'prep',
     'music': 'dance',
     'waltz': 'dance',
     'father daughter': 'dance',
@@ -64,16 +66,30 @@ quince_dict = {
     'delicious': 'food',
     'catering': 'food',
     'sugar': 'food',
-    'sweet': 'food',
     'confection': 'food',
-    'photography': 'photoshoot',
-    'photographer': 'photoshoot',
+    'photograph':'photoshoot',
     'pic': 'photoshoot',
     'shot': 'photoshoot',
     'model': 'photoshoot',
     'headshot': 'photoshoot',
-    'shoot': 'photoshoot',
+    'photoshoot': 'photoshoot',
     'booth': 'photobooth',
+    'friend':'familyandfriends',
+    'sister':'familyandfriends',
+    'uncle':'familyandfriends',
+    'brother':'familyandfriends',
+    'mom':'familyandfriends',
+    'dad':'familyandfriends',
+    'father':'familyandfriends',
+    'mother':'familyandfriends',
+    'sibling':'familyandfriends',
+    'aunt':'familyandfriends',
+    'grandm':'familyandfriends',
+    'grandp':'familyandfriends',
+    'fam':'familyandfriends',
+    'squad':'familyandfriends',
+    'crew':'familyandfriends',
+    'people':'familyandfriends'
 }
 
 #result_temp = {"qui_prep":set(qui_prep),"recessional":set(recessional),"dance":set(dance),"cake": set(cake),
@@ -204,6 +220,7 @@ def return_photos_quince(result_temp):
     food = []
     photobooth = []
     photoshoot = []
+    familyandfriends = []
     other = []
     seen = []
 
@@ -224,13 +241,15 @@ def return_photos_quince(result_temp):
                         photobooth.append(photo)
                     elif set_name == "photoshoot":
                         photoshoot.append(photo)
+                    elif set_name == "familyandfriends":
+                        familyandfriends.append(photo)
                     elif set_name == "what also happened":
                         other.append(photo)
                     seen.append(photo)
 
 
     result = {"qui_prep":prep, "photoshoot":photoshoot, "dance":dance, "food":food, "photobooth":photobooth,
-              "what also happened":other}
+              "familyandfriends":familyandfriends, "what also happened":other}
 
     return result
 
@@ -255,7 +274,8 @@ def extract_username(shortcode):
     soup = BeautifulSoup(page, 'html.parser')
 
     cont = soup.find("meta", {"name":"description"})['content']
-    username = cont.split('(@')[1].split(')')[0]
+    #print(cont)
+    username = cont.split('@')[1].split(')')[0]
 
     return username
 
@@ -341,6 +361,7 @@ def extract_quince_images(soup):
     dance = []
     food = []
     photobooth = []
+    familyandfriends = []
     other = []
 
 
@@ -356,34 +377,34 @@ def extract_quince_images(soup):
             flag = 0
 
             # Search for a keyword in "text", and save corresponding url
-            for keyword in wedding_dict.keys():
+            for keyword in quince_dict.keys():
                 if keyword in text:
-                    if wedding_dict.get(keyword) == "food":
-                        food.append((jpg_link,liked_count,username))
+                    if quince_dict.get(keyword) == "familyandfriends":
+                        familyandfriends.append((jpg_link,liked_count,username))
                         flag = 1
-                    elif wedding_dict.get(keyword) == "dance":
-                        dance.append((jpg_link,liked_count,username))
-                        flag = 1
-                    elif wedding_dict.get(keyword) == "prep":
-                        prep.append((jpg_link,liked_count,username))
-                        flag = 1
-                    elif wedding_dict.get(keyword) == "photoshoot":
-                        photoshoot.append((jpg_link,liked_count,username))
-                        flag = 1
-                    elif wedding_dict.get(keyword) == "photobooth":
+
+                    if quince_dict.get(keyword) == "photobooth":
                         photobooth.append((jpg_link,liked_count,username))
                         flag = 1
+                    elif quince_dict.get(keyword) == "dance":
+                        dance.append((jpg_link,liked_count,username))
+                        flag = 1
+                    elif quince_dict.get(keyword) == "prep":
+                        prep.append((jpg_link,liked_count,username))
+                        flag = 1
+                    elif quince_dict.get(keyword) == "photoshoot":
+                        photoshoot.append((jpg_link,liked_count,username))
+                        flag = 1
+                    elif quince_dict.get(keyword) == "food":
+                        food.append((jpg_link,liked_count,username))
+                        flag = 1
+
             if not flag == 1:
                 other.append((jpg_link,liked_count,username))
 
 
     result_temp = {"qui_prep":set(prep),"photoshoot":set(photoshoot),"dance":set(dance),"food": set(food),
-                   "photobooth": set(photobooth), "what also happened": set(other)}
-
-
-    for k,v in result_temp.items():
-        print(k)
-        print(v)
+                   "photobooth": set(photobooth),"familyandfriends":set(familyandfriends), "what also happened": set(other)}
 
     result = return_photos_quince(result_temp)
 
@@ -395,7 +416,7 @@ if __name__ == '__main__':
     event_type = "quince"
 
     #tag = input("Please enter a hashtag of your event: ")
-    tag = "elenasquinceparty"
+    tag = "ashleysquinceanera"
     url = "https://www.instagram.com/explore/tags/" + tag + "/"
 
 
