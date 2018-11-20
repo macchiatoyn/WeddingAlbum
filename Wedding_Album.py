@@ -320,7 +320,7 @@ def extract_wedding_images(soup):
               "recessional":set(recessional), "reception":set(reception),"first dance":set(first_dance), "cake": set(cake),
               "what also happened": set(other)}
 
-    result = return_photos(result_temp)
+    result = return_photos_wedding(result_temp)
 
     return result
 
