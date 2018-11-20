@@ -12,6 +12,9 @@ import requests
 #  timandbeckyswedding
 #  tylerandnataliesayido
 
+
+maxphoto = 0
+
 quince_dict = {
     'dress': 'prep',
     'hair': 'prep',
@@ -92,8 +95,6 @@ quince_dict = {
     'people':'familyandfriends'
 }
 
-#result_temp = {"qui_prep":set(qui_prep),"recessional":set(recessional),"dance":set(dance),"cake": set(cake),
-#                   "dinner": set(dinner), "what also happened": set(other)}
 wedding_dict = {
     'wedding dress': 'wedding prep',
     'gown': 'wedding prep',
@@ -178,9 +179,9 @@ def return_photos(result_temp):
     kiss = []
     other = []
     seen = []
-    while count < 12:
+    while count < maxphoto:
         for set_name, photo_set in result_temp.items():
-            if photo_set != set([]) and count < 12:
+            if photo_set != set([]) and count < maxphoto:
                 photo, seen = best_photo(photo_set, seen)
 
                 if len(photo) != 0:
@@ -224,11 +225,11 @@ def return_photos_quince(result_temp):
     other = []
     seen = []
 
-    while count < 12:
+    while count < maxphoto:
         for set_name, photo_set in result_temp.items():
-            if photo_set != set([]) and count < 12:
-                photo, seen = best_photo(photo_set, seen)
 
+            if photo_set != set([]) and count < maxphoto:
+                photo, seen = best_photo(photo_set, seen)
                 if len(photo) != 0:
                     count = count + 1
                     if set_name == "food":
@@ -274,7 +275,6 @@ def extract_username(shortcode):
     soup = BeautifulSoup(page, 'html.parser')
 
     cont = soup.find("meta", {"name":"description"})['content']
-    #print(cont)
     username = cont.split('@')[1].split(')')[0]
 
     return username
@@ -382,7 +382,6 @@ def extract_quince_images(soup):
                     if quince_dict.get(keyword) == "familyandfriends":
                         familyandfriends.append((jpg_link,liked_count,username))
                         flag = 1
-
                     if quince_dict.get(keyword) == "photobooth":
                         photobooth.append((jpg_link,liked_count,username))
                         flag = 1
@@ -411,18 +410,23 @@ def extract_quince_images(soup):
     return result
 
 
-if __name__ == '__main__':
-    #event_type = input("Please enter the type of your event: ")
-    event_type = "quince"
 
-    #tag = input("Please enter a hashtag of your event: ")
-    tag = "ashleysquinceanera"
+
+if __name__ == '__main__':
+    event_type = input("Please enter the type of your event: ")
+
+    tag = input("Please enter a hashtag of your event: ")
     url = "https://www.instagram.com/explore/tags/" + tag + "/"
 
 
     r = requests.get(url)
     page = r.text
     soup = BeautifulSoup(page, 'html.parser')
+
+    cont = soup.find("meta", {"name": "description"})['content']
+    total_post = int(cont.split(' ')[0])
+    maxphoto = total_post
+
 
     if event_type == "wedding":
         photos = extract_wedding_images(soup)
