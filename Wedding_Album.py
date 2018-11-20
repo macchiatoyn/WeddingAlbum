@@ -29,7 +29,7 @@ quince_dict = {
     'decor': 'prep',
     'planning': 'prep',
     'arrange': 'prep',
-    'design': 'prep'
+    'design': 'prep',
     'entrance': 'prep',
     'dance': 'dance',
     'dancing': 'dance',
@@ -74,7 +74,7 @@ quince_dict = {
     'pic': 'photoshoot',
     'shot': 'photoshoot',
     'model': 'photoshoot',
-    'headshot' 'photoshoot',
+    'headshot':'photoshoot',
     'shoot': 'photoshoot',
     'booth': 'photobooth',
     
