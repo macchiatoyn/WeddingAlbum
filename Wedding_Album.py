@@ -13,7 +13,6 @@ import requests
 #  tylerandnataliesayido
 
 
-maxphoto = 0
 
 quince_dict = {
     'dress': 'prep',
@@ -95,6 +94,8 @@ quince_dict = {
     'people':'familyandfriends'
 }
 
+#result_temp = {"qui_prep":set(qui_prep),"recessional":set(recessional),"dance":set(dance),"cake": set(cake),
+#                   "dinner": set(dinner), "what also happened": set(other)}
 wedding_dict = {
     'wedding dress': 'wedding prep',
     'gown': 'wedding prep',
@@ -166,8 +167,23 @@ wedding_dict = {
 }
 
 
+def number_of_post(soup):
+    cont = soup.find("meta", {"name": "description"})['content']
+    total_post = int(cont.split(' ')[0])
+
+    if total_post < 10:
+        maxphoto = total_post * 0.9
+    elif total_post < 20:
+        maxphoto = total_post * 0.8
+    elif total_post < 30:
+        maxphoto = total_post * 0.7
+    else:
+        maxphoto = total_post * 0.6
+
+    return int(maxphoto)
+
 # returns photos prioritizing covering categories and then likes
-def return_photos(result_temp):
+def return_photos(result_temp,maxphoto):
     count = 0
     wedding_prep = []
     prelude = []
@@ -214,7 +230,7 @@ def return_photos(result_temp):
     return result
 
 # returns photos prioritizing covering categories and then likes
-def return_photos_quince(result_temp):
+def return_photos_quince(result_temp,maxphoto):
     count = 0
     prep = []
     dance = []
@@ -285,6 +301,9 @@ def extract_username(shortcode):
 # Input: soup
 # Output: a dict of links with subevents
 def extract_wedding_images(soup):
+
+    max_post = number_of_post(soup)
+
     scripts = soup.find_all('script')
     all_info = scripts[3].text.strip()
 
@@ -344,7 +363,7 @@ def extract_wedding_images(soup):
               "recessional":set(recessional), "reception":set(reception),"first dance":set(first_dance), "cake": set(cake),
               "what also happened": set(other)}
 
-    result = return_photos(result_temp)
+    result = return_photos(result_temp,max_post)
 
     return result
 
@@ -353,6 +372,8 @@ def extract_wedding_images(soup):
 # Input: soup
 # Output: a dict of links with subevents
 def extract_quince_images(soup):
+    max_post = number_of_post(soup)
+
     scripts = soup.find_all('script')
     all_info = scripts[3].text.strip()
 
@@ -405,7 +426,7 @@ def extract_quince_images(soup):
     result_temp = {"qui_prep":set(prep),"photoshoot":set(photoshoot),"dance":set(dance),"food": set(food),
                    "photobooth": set(photobooth),"familyandfriends":set(familyandfriends), "what also happened": set(other)}
 
-    result = return_photos_quince(result_temp)
+    result = return_photos_quince(result_temp,max_post)
 
     return result
 
@@ -414,18 +435,16 @@ def extract_quince_images(soup):
 
 if __name__ == '__main__':
     event_type = input("Please enter the type of your event: ")
+    #event_type = "quince"
 
     tag = input("Please enter a hashtag of your event: ")
+    #tag = "arianasquinceañera"
     url = "https://www.instagram.com/explore/tags/" + tag + "/"
 
 
     r = requests.get(url)
     page = r.text
     soup = BeautifulSoup(page, 'html.parser')
-
-    cont = soup.find("meta", {"name": "description"})['content']
-    total_post = int(cont.split(' ')[0])
-    maxphoto = total_post
 
 
     if event_type == "wedding":
