@@ -94,8 +94,7 @@ quince_dict = {
     'people':'familyandfriends'
 }
 
-#result_temp = {"qui_prep":set(qui_prep),"recessional":set(recessional),"dance":set(dance),"cake": set(cake),
-#                   "dinner": set(dinner), "what also happened": set(other)}
+
 wedding_dict = {
     'wedding dress': 'wedding prep',
     'gown': 'wedding prep',
@@ -171,7 +170,9 @@ def number_of_post(soup):
     cont = soup.find("meta", {"name": "description"})['content']
     total_post = int(cont.split(' ')[0])
 
-    if total_post < 10:
+    if total_post < 11:
+        maxphoto = total_post
+    elif total_post < 15:
         maxphoto = total_post * 0.9
     elif total_post < 20:
         maxphoto = total_post * 0.8
@@ -223,8 +224,8 @@ def return_photos(result_temp,maxphoto):
                     seen.append(photo)
 
 
-    result = {"wedding_prep":wedding_prep, "prelude":prelude, "vows":vows, "kiss":kiss,
-         "recessional":recessional, "reception":reception, "first dance":first_dance,"cake":cake,
+    result = {"Preparation":wedding_prep, "Prelude":prelude, "Vows":vows, "Kiss":kiss,
+         "Recessional":recessional, "Reception":reception, "First Dance":first_dance,"Sweet Time":cake,
          "what also happened":other}
 
     return result
@@ -265,8 +266,8 @@ def return_photos_quince(result_temp,maxphoto):
                     seen.append(photo)
 
 
-    result = {"qui_prep":prep, "photoshoot":photoshoot, "dance":dance, "food":food, "photobooth":photobooth,
-              "familyandfriends":familyandfriends, "what also happened":other}
+    result = {"Preparation":prep, "Looking Good":photoshoot, "Get down":dance, "Yumyum":food, "Photobooth":photobooth,
+              "Family and Friends":familyandfriends, "what also happened":other}
 
     return result
 
