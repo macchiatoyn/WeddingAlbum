@@ -1,10 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 
-#sample users:
-#  meagan_moffitt
 
-#tags for testing:
+#tags for wedding testing:
 #  johnandsuzie2018
 #  davidplussue
 #  samanddavidsayido
@@ -323,7 +321,7 @@ def extract_wedding_images(soup):
         if "text" in x and "display_url" in x:
             text = x.split('},')[0].lower()
             shortcode = x.split('"shortcode":"')[1].split('",')[0]
-            username = "@" + extract_username(shortcode)
+            username = "@" #+ extract_username(shortcode)
 
             liked_count = x.split('"edge_liked_by":{"count":')[1].split('}')[0]
             jpg_link = x.split('"display_url":"')[1].split('"')[0]
@@ -392,7 +390,7 @@ def extract_quince_images(soup):
         if "text" in x and "display_url" in x:
             text = x.split('},')[0].lower()
             shortcode = x.split('"shortcode":"')[1].split('",')[0]
-            username = "@" + extract_username(shortcode)
+            username = "@" #+ extract_username(shortcode)
 
             liked_count = x.split('"edge_liked_by":{"count":')[1].split('}')[0]
             jpg_link = x.split('"display_url":"')[1].split('"')[0]
