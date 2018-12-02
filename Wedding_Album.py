@@ -276,9 +276,10 @@ def best_photo(photo_set, seen):
     best_photo = set()
 
     for photo in photo_set:
-        if int(photo[1]) > int(most_likes) and not photo in seen:
+        if int(photo[1]) >= int(most_likes) and not photo in seen:
             most_likes = photo[1]
             best_photo = photo
+
     return best_photo, seen
 
 
@@ -362,6 +363,8 @@ def extract_wedding_images(soup):
               "recessional":set(recessional), "reception":set(reception),"first dance":set(first_dance), "cake": set(cake),
               "what also happened": set(other)}
 
+    print(result_temp)
+
     result = return_photos(result_temp,max_post)
 
     return result
@@ -434,10 +437,10 @@ def extract_quince_images(soup):
 
 if __name__ == '__main__':
     event_type = input("Please enter the type of your event: ")
-    #event_type = "quince"
+    #event_type = "wedding"
 
     tag = input("Please enter a hashtag of your event: ")
-    #tag = "arianasquinceañera"
+    #tag = "kevplusjanwedding"
     url = "https://www.instagram.com/explore/tags/" + tag + "/"
 
 
