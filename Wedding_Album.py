@@ -165,7 +165,13 @@ wedding_dict = {
 
 
 def number_of_post(soup):
-    cont = soup.find("meta", {"name": "description"})['content']
+
+    cont = soup.find("meta", {"name": "description"})
+    if cont:
+        cont = cont['content']
+    else:
+        return None
+
     total_post = int(cont.split(' ')[0])
 
     if total_post < 11:
@@ -224,7 +230,7 @@ def return_photos(result_temp,maxphoto):
 
     result = {"Preparation":wedding_prep, "Prelude":prelude, "Vows":vows, "Kiss":kiss,
          "Recessional":recessional, "Reception":reception, "First Dance":first_dance,"Sweet Time":cake,
-         "what also happened":other}
+         "What also Happened":other}
 
     return result
 
@@ -265,7 +271,7 @@ def return_photos_quince(result_temp,maxphoto):
 
 
     result = {"Preparation":prep, "Looking Good":photoshoot, "Get down":dance, "Yumyum":food, "Photobooth":photobooth,
-              "Family and Friends":familyandfriends, "what also happened":other}
+              "Family and Friends":familyandfriends, "What also Happened":other}
 
     return result
 
@@ -303,6 +309,11 @@ def extract_username(shortcode):
 def extract_wedding_images(soup):
 
     max_post = number_of_post(soup)
+    if max_post is None:
+        return {"Preparation":[],"Prelude":[],"Vows":[],"Kiss":[],
+              "Recessional":[], "Reception":[],"First Dance":[], "Sweet Time": [],
+              "What also happened": []}
+
 
     scripts = soup.find_all('script')
     all_info = scripts[3].text.strip()
@@ -375,6 +386,10 @@ def extract_wedding_images(soup):
 def extract_quince_images(soup):
     max_post = number_of_post(soup)
 
+    if max_post is None:
+        return {"Preparation": [], "Looking Good": [], "Get down": [], "Yumyum": [],
+                  "Photobooth": [], "Family and Friends": [], "what also happened": []}
+
     scripts = soup.find_all('script')
     all_info = scripts[3].text.strip()
 
@@ -439,7 +454,7 @@ if __name__ == '__main__':
     #event_type = "wedding"
 
     tag = input("Please enter a hashtag of your event: ")
-    #tag = "kevplusjanwedding"
+    #tag = "fayekaccounwedding"
     url = "https://www.instagram.com/explore/tags/" + tag + "/"
 
 
