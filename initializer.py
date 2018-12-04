@@ -7,11 +7,6 @@ app = Flask(__name__)
 hashtag = ""
 event = ""
 
-fakeDictionary = {
-    "firstDance" : [("justone", 0, "@nope"), ("secondone", 1, "@wooo")],
-    "firstKiss" : [("fakeurl", 15, "@jennikim"), ("Woohoo", 31, "@boyjoshy"), ("no stop", 20, "@boyjoshy")]
-}
-
 @app.route('/')
 def render_home():
     return render_template('index.html')
