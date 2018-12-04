@@ -2,16 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 
 
-#tags for wedding testing:
-#  johnandsuzie2018
-#  davidplussue
-#  samanddavidsayido
-#  vickyandryan
-#  timandbeckyswedding
-#  tylerandnataliesayido
-
-
-
 quince_dict = {
     'dress': 'prep',
     'hair': 'prep',
@@ -163,7 +153,7 @@ wedding_dict = {
     'kiss': 'kiss',
 }
 
-
+#Extract the numer of posts under a hashtag
 def number_of_post(soup):
 
     cont = soup.find("meta", {"name": "description"})
@@ -188,7 +178,7 @@ def number_of_post(soup):
     return int(maxphoto)
 
 # returns photos prioritizing covering categories and then likes
-def return_photos(result_temp,maxphoto):
+def return_photos_wedding(result_temp,maxphoto):
     count = 0
     wedding_prep = []
     prelude = []
@@ -332,6 +322,9 @@ def extract_wedding_images(soup):
     for x in nodes:
         if "text" in x and "display_url" in x:
             text = x.split('},')[0].lower()
+
+            # extract username
+            # temporary remove this part for faster processing
             shortcode = x.split('"shortcode":"')[1].split('",')[0]
             username = "@" #+ extract_username(shortcode)
 
@@ -375,7 +368,7 @@ def extract_wedding_images(soup):
               "what also happened": set(other)}
 
 
-    result = return_photos(result_temp,max_post)
+    result = return_photos_wedding(result_temp,max_post)
 
     return result
 
@@ -406,6 +399,9 @@ def extract_quince_images(soup):
     for x in nodes:
         if "text" in x and "display_url" in x:
             text = x.split('},')[0].lower()
+
+            # extract username
+            # temporary remove this part for faster processing
             shortcode = x.split('"shortcode":"')[1].split('",')[0]
             username = "@" #+ extract_username(shortcode)
 
@@ -451,10 +447,8 @@ def extract_quince_images(soup):
 
 if __name__ == '__main__':
     event_type = input("Please enter the type of your event: ")
-    #event_type = "wedding"
 
     tag = input("Please enter a hashtag of your event: ")
-    #tag = "fayekaccounwedding"
     url = "https://www.instagram.com/explore/tags/" + tag + "/"
 
 
